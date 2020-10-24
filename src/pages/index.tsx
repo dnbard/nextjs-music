@@ -29,7 +29,7 @@ const Home: FunctionComponent<MainPage> = (props) => {
         <MainArea>
           <h1>
             <FontAwesomeIcon icon={faMusic} color="white" size="lg" title="Lorem Ipsum" />
-            finn.MUSIC
+            MUSIC
           </h1>
           <Featured artist={firstEntry['im:artist'].label} title={firstEntry['im:name'].label} />
           <Spacing size={128} />
