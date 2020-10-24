@@ -3,7 +3,8 @@ import styled from 'styled-components'
 const Page = styled.div`
   display: flex;
   background: black;
-  background-image: url(/guitar.jpg);
+  background-image: url(${({ image }) => image ? image : '/guitar.jpg'});
+  background-size: ${({ image }) => image? '750px' : 'inherit'};
   box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.85);
   width: 100vw;
   height: 100vh;

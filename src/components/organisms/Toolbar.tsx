@@ -2,12 +2,15 @@ import { FunctionComponent, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMusic, faThLarge, faDrum, faPodcast, faGuitar, faRecordVinyl, faSlidersH } from '@fortawesome/free-solid-svg-icons'
+import Link from 'next/link'
 
 import { Spacing } from '../atoms'
 
 const BaseToolbar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({ ...props }) => {
   return <div {...props}>
-    <FontAwesomeIcon icon={faMusic} color="white" size="lg" title="Lorem Ipsum" />
+    <Link href="/">
+      <FontAwesomeIcon icon={faMusic} color="white" size="lg" title="Lorem Ipsum" />
+    </Link>
     <Spacing size={64} />
     <FontAwesomeIcon icon={faThLarge} title="Lorem Ipsum" />
     <FontAwesomeIcon icon={faDrum} title="Lorem Ipsum" />

@@ -6,7 +6,7 @@ import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import { Page, MainArea, Spacing } from '../components/atoms'
 import { Featured } from '../components/molecules'
 import { Toolbar, Releases } from '../components/organisms'
-import { Store } from '../store'
+import Store from '../store'
 
 interface MainPage extends HTMLAttributes<HTMLDivElement> {
   data: any
@@ -22,7 +22,7 @@ const Home: FunctionComponent<MainPage> = (props) => {
   const firstEntry = props.data.feed.entry[0]
 
   return (
-    <Store.Provider value={{ data: props.data }}>
+    <Store value={{ data: props.data }}>
       <GlobalStyles /> 
       <Page>
         <Toolbar />
@@ -36,7 +36,7 @@ const Home: FunctionComponent<MainPage> = (props) => {
           <Releases />
         </MainArea>
       </Page>
-    </Store.Provider>
+    </Store>
   )
 }
 
@@ -45,8 +45,6 @@ export async function getStaticProps() {
     await fetch(`https://itunes.apple.com/us/rss/topalbums/limit=100/json`)
   ).json()
 
-  // The value of the `props` key will be
-  //  passed to the `Home` component
   return {
     props: { data },
   }

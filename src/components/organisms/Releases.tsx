@@ -1,14 +1,17 @@
 import { FunctionComponent, HTMLAttributes, useContext, useState, useMemo, useCallback, ChangeEvent } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlayCircle, faPauseCircle, faStar } from '@fortawesome/free-solid-svg-icons'
+import Link from 'next/link'
 
 import { Store } from '../../store'
+import { Rating } from '../molecules'
 
 interface ReleasesProps extends HTMLAttributes<HTMLDivElement> {
   image: string
   artist: string
   title: string
+  id: string
 }
 
 const Label = styled.div`
@@ -17,22 +20,40 @@ const Label = styled.div`
   text-overflow: ellipsis;
 `
 
-const BaseRelease: FunctionComponent<ReleasesProps> = ({ image, artist, title, ...props }) => {
+const ReleaseContainer = styled.div`
+  width: 170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const BaseRelease: FunctionComponent<ReleasesProps> = ({ image, artist, title, id, ...props }) => {
+  const { dispatch, playing } = useContext(Store)
+
+  const onClick = useCallback(() => dispatch({ type: 'playing-set', payload: { id } }), [dispatch, id])
+
   return (
     <div {...props}>
-      <img src={image}></img>
-      <div>
+      <Link href={`/song/${id}`}>
+        <img src={image} />
+      </Link>
+      <ReleaseContainer>
         <div>
           <Label>{artist}</Label>
           <Label>{title}</Label>
         </div>
-        <FontAwesomeIcon icon={faPlayCircle} size="2x" />
-      </div>
+        <FontAwesomeIcon
+          icon={playing === id ? faPauseCircle : faPlayCircle}
+          size="2x"
+          onClick={onClick}
+        />
+      </ReleaseContainer>
+      <Rating value={0} id={id} />
     </div>
   )
 }
 
-const Release = styled(BaseRelease)`
+export const Release = styled(BaseRelease)`
   margin: 16px 16px 16px 0;
   cursor: pointer;
   color: grey;
@@ -49,13 +70,6 @@ const Release = styled(BaseRelease)`
     img {
       opacity: 1;
     }
-  }
-
-  > div {
-    width: 170px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 `
 
@@ -92,6 +106,7 @@ const Releases: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({ ...props 
             image={e['im:image'][e['im:image'].length -1].label}
             artist={e['im:artist'].label}
             title={e['im:name'].label}
+            id={e.id.attributes['im:id']}
           />
         )) }
       </div>
